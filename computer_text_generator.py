@@ -82,6 +82,10 @@ def chck_font_support(font_path, text_to_check):
     except Exception as e:
         print(f"Error while checking font: {e}")
         return False
+dict_char={}
+dict_char['sym']={'c':"«»؟،؛٪"+'=><'+ "!\"#$%&'()*+,-./:;?@[\\]^_`{|}~ "}
+dict_char['sym_gle']={'c':"≥≤"}
+dict_char['sym_c']={'c':"✓"}
 
 def _generate_horizontal_text(
     text: str,
@@ -101,10 +105,17 @@ def _generate_horizontal_text(
     while not sup:
         sup = chck_font_support(font,text)
         if sup: break
-        font = rnd.choice(glob.glob(rf'D:\Projects\AISoftArt\CoVi\OCR\TextRecognitionDataGenerator\trdg\fonts_combine\*.*'))
+
+        for k in dict_char:
+            if dict_char[k]['c'] in text:
+                break
+            else:
+                k='**'
+                
+        font = rnd.choice(glob.glob(rf'fonts_combine\{k}\*.*',recursive=1))
         # print('font',font)
         times+=1
-        if times>20000:
+        if times>10000:
             print('many fonts is lack text:',text)
             return False, False
             # raise 1==0

@@ -13,7 +13,7 @@ with open(json_filename, 'r', encoding='utf-8') as json_file:
 
 def is_arabic(text):
     arabic_ranges = [
-        (0x621, 0x06FF),  # Arabic  0x0600 or 0x621
+        (0x0621, 0x06FF),  # Arabic  0x0600 or 0x621
         (0x0750, 0x077F),  # Arabic Supplement
         (0xFB50, 0xFDFF),  # Arabic Presentation Forms-A
         (0xFE70, 0xFEFF),  # Arabic Presentation Forms-B
@@ -214,11 +214,12 @@ def main():
 
     # Create font (path) list
     if args.font_dir:
-        fonts = [
-            os.path.join(args.font_dir, p)
-            for p in os.listdir(args.font_dir)
-            if os.path.splitext(p)[1] == ".ttf"
-        ]
+        # fonts = [
+        #     os.path.join(args.font_dir, p)
+        #     for p in os.listdir(args.font_dir)
+        #     if os.path.splitext(p)[1] == ".ttf"
+        # ]
+        fonts = glob.glob(args.font_dir, recursive=1)
     elif args.font:
         if os.path.isfile(args.font):
             fonts = [args.font]
@@ -361,7 +362,7 @@ def main():
                 
                 file_name = f"{i}_{label}.{args.extension}"
                 file_name = make_filename_valid(file_name, allow_unicode=True)
-                
+
                 check_imgfile = os.path.join(args.output_dir, file_name)
                 if not os.path.exists(check_imgfile):
                     print('not fount?',check_imgfile)
